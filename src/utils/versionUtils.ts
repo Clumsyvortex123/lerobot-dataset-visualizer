@@ -4,8 +4,13 @@
 
 import { authHeaders } from "./auth";
 
+// NEXT_PUBLIC_DATASET_URL is inlined at build time, so it also reaches this
+// module in the browser (the episode viewer is a client component), where
+// DATASET_URL is undefined. Both point at `<endpoint>/datasets`.
 const DATASET_URL =
-  process.env.DATASET_URL || "https://huggingface.co/datasets";
+  process.env.NEXT_PUBLIC_DATASET_URL ||
+  process.env.DATASET_URL ||
+  "https://huggingface.co/datasets";
 
 /**
  * Dataset information structure from info.json

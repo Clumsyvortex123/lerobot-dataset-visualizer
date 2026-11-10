@@ -60,7 +60,9 @@ const SERIES_NAME_DELIMITER = CHART_CONFIG.SERIES_NAME_DELIMITER;
 
 /** `DATASET_URL` points at `<endpoint>/datasets`; the package wants the endpoint. */
 const HUB_ENDPOINT = (
-  process.env.DATASET_URL || "https://huggingface.co/datasets"
+  process.env.NEXT_PUBLIC_DATASET_URL ||
+  process.env.DATASET_URL ||
+  "https://huggingface.co/datasets"
 ).replace(/\/datasets\/?$/, "");
 
 type RangeEntry =

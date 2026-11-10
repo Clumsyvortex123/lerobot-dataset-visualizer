@@ -193,3 +193,20 @@ Contributions, bug reports, and feature requests are welcome! Please open an iss
 ### Acknowledgement
 
 The app was orignally created by [@Mishig25](https://github.com/mishig25) and taken from this PR [#1055](https://github.com/huggingface/lerobot/pull/1055)
+
+## Self-hosted datasets (this fork)
+
+To browse LeRobot datasets that live on a local disk instead of the Hub:
+
+```bash
+# 1. Serve the datasets at the Hub URL layout (Range + CORS for video seeking).
+#    ROOT/<name>/meta/info.json is reachable as /datasets/<org>/<name>/resolve/main/meta/info.json
+python3 tools/serve_local_datasets.py --root /path/to/datasets --port 8765
+
+# 2. Point the visualizer at it. NEXT_PUBLIC_DATASET_URL is inlined at build time
+#    and is what the browser-side episode viewer reads; DATASET_URL is the server side.
+printf "DATASET_URL=http://<host>:8765/datasets\nNEXT_PUBLIC_DATASET_URL=http://<host>:8765/datasets\n" > .env.local
+bun run build && bun start -p 3100 -H 0.0.0.0
+
+# 3. Open http://<host>:3100/<org>/<name>/episode_0 (any <org>; the server ignores it).
+```
